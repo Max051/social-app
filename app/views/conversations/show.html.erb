@@ -1,0 +1,33 @@
+<% if conversation.participants[0].name == current_user.name  %>
+<div class="conv_header">
+  <h1 style="display: inline-block"><%= conversation.participants[1].name %></h1>
+  <%= image_tag conversation.participants[1].avatar, size: '100x80',:style => 'display: inline-block' %>
+</div>
+
+<% else %>
+<h1><%= conversation.participants[0].name %></h1>
+<%= image_tag conversation.participants[0].avatar, size: '100x80',:style => 'display: inline-block' %>
+<% end %>
+<ul>
+  <%= content_tag_for(:li, conversation.receipts_for(current_user)) do |receipt| %>
+
+    <% message = receipt.message%>
+    <% if message.sender_id == current_user.id %>
+    <% @align = 'moi' %>
+    <% else %>
+    <% @align = 'sender' %>
+    <% end %>
+<div class="message_bubble <%= @align %>">
+  <p>
+    <% if message.sender_id  != current_user.id %>
+    <%= image_tag User.find(message.sender_id).avatar, size: '40x40' %>
+    <% end %>
+    <%= message.body %>
+    </p>
+</div>
+
+
+
+<% end %>
+</ul>
+<%= render 'messages/form', conversation: conversation%>

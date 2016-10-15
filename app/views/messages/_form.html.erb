@@ -1,0 +1,5 @@
+<%= form_for :message, url: reply_conversation_path(conversation) do |f| %>
+  <%= f.text_area :body, placeholder: 'Type message'%>
+  <%= f.submit 'Submit', class: 'btn-primary' %>
+  <%= f.submit 'Cancel', type: :reset, class: 'btn btn-danger' %>
+  <% end %>

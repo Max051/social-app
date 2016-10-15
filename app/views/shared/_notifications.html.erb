@@ -1,0 +1,16 @@
+<ul class="dropdown-menu notification">
+  <% current_user.mailbox.notifications.each do |notification| %>
+  <li class="notification_list">
+  <% if notification.body[notification.body.length-4,notification.body.length] == "post" %>
+    <%=link_to notification.body , root_path %>
+  <% else %>
+ <%=link_to notification.body , :conversations %>
+ <% end %>
+
+  <% if notification.subject != 'Message' %>
+  <%= image_tag User.find(notification.subject).avatar.url, class: "notification_avatar" %>
+  <% end %>
+</li>
+  <% notification.mark_as_read(current_user) %>
+  <% end %>
+</ul>

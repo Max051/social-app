@@ -1,0 +1,20 @@
+<%= content_tag_for(:li, conversation) do |conversation| %>
+  <p>
+    <% conversation.participants.each do |recipient|%>
+      <% if recipient != current_user %>
+      <%= image_tag recipient.avatar, size: '100x80' %>
+    <%= link_to  recipient.name, user_path(recipient) %>
+    <% end %>
+    <% end %>
+    |
+    <%= link_to conversation.subject, conversation_path(conversation) %>
+    |
+    <% if conversation.is_completely_trashed?(current_user) %>
+      <%= link_to 'Untrash', untrash_conversation_path(conversation), method: :post %>
+    <% else %>
+      <%= link_to 'Move to trash', trash_conversation_path(conversation), method: :post %>
+    <% end %>
+
+
+  </p>
+<% end %>

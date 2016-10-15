@@ -1,0 +1,5 @@
+<li>
+  <%= link_to current_user.name, current_user %>
+   <%= image_tag(current_user.avatar.url, size:'40x40')  %>
+  <%= current_user.comments.find(current_user.comments.first.id).content %>
+</li>

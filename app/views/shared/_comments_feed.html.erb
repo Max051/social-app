@@ -1,0 +1,26 @@
+<% micropost.comments_feed.each do |e| %>
+
+  <li>
+    <% if current_user?(e.user) %>
+        <%= link_to "x", micropost,class:'destroy_micropost', method: :delete,
+                                         data: { confirm: "You sure?" } %>
+      <% end %>
+    <%= link_to User.find(e.user_id).name, User.find(e.user_id) %>
+     <%= image_tag(User.find(e.user_id).avatar.url, size:'40x40')  %>
+    <% if e.content[e.content.length-4,e.content.length] === ".jpg" ||  e.content[e.content.length-4,e.content.length] == ".png" ||  e.content[e.content.length-5,e.content.length] == ".jpeg" ||  e.content[e.content.length-4,e.content.length] == ".gif" %>
+<%= image_tag e.content, size:'100x100'%>
+    <% else %>
+    <%= e.content %>
+    <% end %>
+    <span class="timestamp"> Posted  <%= time_ago_in_words(e.created_at) %> ago</span>
+    <div class="comments_likes">
+      <%= form_for Like.new do |f| %>
+        <%= render "shared/error_messages", object: f.object %>
+        <%= f.hidden_field(:comment_id, value: e.id) %>
+        <%= f.submit 'Like',class: "like" %>
+      <% end %>
+      <span>Likes: <%= e.likes.length %> </span>
+    </div>
+
+  </li>
+<% end %>

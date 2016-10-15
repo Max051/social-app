@@ -1,0 +1,37 @@
+<li id="micropost-<%= micropost.id %>">
+  <% if current_user?(micropost.user) %>
+      <%= link_to "x", micropost,class:'destroy_micropost', method: :delete,
+                                       data: { confirm: "You sure?" } %>
+    <% end %>
+<%= link_to  image_tag(micropost.user.avatar.url, alt: 'avatar', class: "avatar"), micropost.user %>
+  <span class="user"> <%= link_to micropost.user.name, micropost.user %> </span>
+<% if micropost.content[micropost.content.length-4,micropost.content.length] === ".jpg" ||  micropost.content[micropost.content.length-4,micropost.content.length] == ".png" ||  micropost.content[micropost.content.length-5,micropost.content.length] == ".jpeg" ||  micropost.content[micropost.content.length-4,micropost.content.length] == ".gif" %>
+<%=  cl_image_tag "#{micropost.id}-micropost" , size:'100x100' %>
+<% else %>
+  <span class="content"><%= micropost.content %></span>
+<% end %>
+<%= image_tag micropost.photoclip.url, size:"400x400" if micropost.photoclip? %>
+  <span class="timestamp"> Posted  <%= time_ago_in_words(micropost.created_at) %> ago</span>
+
+
+    <div class="micropost_likes">
+        <%= form_for Like.new do |f| %>
+          <%= render "shared/error_messages", object: f.object %>
+            <%= f.hidden_field(:micropost_id, value: micropost.id) %>
+          <%= f.submit 'Like',class: "like" %>
+        <% end %>
+          <span> Likes: <%=micropost.likes.length %></span>
+    </div>
+
+
+    <%= form_for Comment.new, remote: true do |f| %>
+      <%= render "shared/error_messages", object: f.object %>
+      <%= f.text_field :content, class: "form-control" %>
+      <%= f.hidden_field(:micropost_id, value: micropost.id) %>
+      <%= f.submit "Add comment", class: "btn btn-primary" %>
+    <% end %>
+
+    <ul id="comments_feed-<%= micropost.id %>">
+  <%= render partial: 'shared/comments_feed', locals: {:micropost => micropost} %>
+    </ul>
+</li>

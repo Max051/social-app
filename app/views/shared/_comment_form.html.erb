@@ -1,0 +1,7 @@
+<%= form_for Comment.new do |f| %>
+  <%= render "shared/error_messages", object: f.object %>
+  <%= f.text_field :content, class: "form-control" %>
+  <%= f.hidden_field(:user_id, value: current_user.id) %>
+  <%= f.hidden_field(:micropost_id, :value => micropost.id) %>
+  <%= f.submit "Add comment", class: "btn btn-primary" %>
+<% end %>

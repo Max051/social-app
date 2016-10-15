@@ -1,0 +1,10 @@
+<div >
+<%= form_for :conversation, url: :conversations do |f| %>
+  <%= f.hidden_field :recipients, value: @user.name %>
+  <%= f.text_field :subject, placeholder: 'Type message subject'%>
+  <%= f.text_area :body, placeholder: 'Type message'%>
+  <%= f.submit 'Submit', class: 'btn-primary'%>
+  <%= f.submit 'Cancel', type: :reset, class: 'btn-danger'%>
+<% end %>
+
+</div>

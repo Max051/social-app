@@ -1,0 +1,2 @@
+$("#<%= escape_javascript(current_user.comments.find(current_user.comments.first.id).micropost_id.to_s)%>").append("<%= escape_javascript(render('shared/new_comment')) %>");
+console.log("<%= escape_javascript(current_user.comments.find(current_user.comments.first.id).micropost_id.to_s)%>")
