@@ -20,7 +20,6 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      Cloudinary::Uploader.upload("#{@original_filename}", public_id: "#{@user.id}-avatar")
       @user.send_activation_email
       flash[:info] = "Please check your email"
       redirect_to root_url
