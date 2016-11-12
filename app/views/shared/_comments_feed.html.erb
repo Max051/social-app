@@ -13,11 +13,16 @@
     <%= e.content %>
     <% end %>
     <span class="timestamp"> Posted  <%= time_ago_in_words(e.created_at) %> ago</span>
+    <% if e.likes.where("user_id == ?",current_user.id).empty? %>
+    <% text = "Like" %>
+    <% else %>
+    <% text = "Unlike" %>
+    <% end %>
     <div class="comments_likes">
       <%= form_for Like.new do |f| %>
         <%= render "shared/error_messages", object: f.object %>
         <%= f.hidden_field(:comment_id, value: e.id) %>
-        <%= f.submit 'Like',class: "like" %>
+        <%= f.submit text ,class: "like" %>
       <% end %>
       <span>Likes: <%= e.likes.length %> </span>
     </div>

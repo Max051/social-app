@@ -15,11 +15,19 @@
 
 
     <div class="micropost_likes">
-        <%= form_for Like.new do |f| %>
-          <%= render "shared/error_messages", object: f.object %>
-            <%= f.hidden_field(:micropost_id, value: micropost.id) %>
-          <%= f.submit 'Like',class: "like" %>
-        <% end %>
+  <% if micropost.likes.where("user_id == ?",current_user.id).empty? %>
+  <% text = "Like" %>
+  <% else %>
+  <% text = "Unlike" %>
+  <% end %>
+
+
+    <%= form_for Like.new do |f| %>
+      <%= render "shared/error_messages", object: f.object %>
+        <%= f.hidden_field(:micropost_id, value: micropost.id) %>
+      <%= f.submit text ,class: "like" %>
+    <% end %>
+
           <span> Likes: <%=micropost.likes.length %></span>
     </div>
 
