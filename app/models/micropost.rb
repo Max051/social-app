@@ -1,17 +1,7 @@
 class Micropost < ActiveRecord::Base
   attr_accessor :photoclip
   belongs_to :user
-  has_attached_file :photoclip, :styles => { :large => "500x400>", :medium => "100x80>" }, :storage => :cloudinary,
-  cloudinary_upload_options:{
-   :default => {
-           :secure => true
-       },
-     overwrite: true,
-     unique_filename:false
- },
- :public_id => ":photoclip:filename",
- :path => "/:class/:attachment/:id_partition/:style/:filename"
-
+  has_attached_file :photoclip, :styles => { :large => "500x400>", :medium => "100x80>" }
   validates_attachment :photoclip,
     content_type: { content_type: ["image/jpeg", "image/png", "image/gif"] },
     size: { in: 0..1.megabytes },

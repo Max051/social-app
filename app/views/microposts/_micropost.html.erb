@@ -6,7 +6,7 @@
 <%= link_to  image_tag(micropost.user.avatar.url, alt: 'avatar', class: "avatar"), micropost.user %>
   <span class="user"> <%= link_to micropost.user.name, micropost.user %> </span>
 <% if micropost.content[micropost.content.length-4,micropost.content.length] === ".jpg" ||  micropost.content[micropost.content.length-4,micropost.content.length] == ".png" ||  micropost.content[micropost.content.length-5,micropost.content.length] == ".jpeg" ||  micropost.content[micropost.content.length-4,micropost.content.length] == ".gif" %>
-<%=  cl_image_tag "#{micropost.id}-micropost" , size:'100x100' %>
+<%= image_tag micropost.photoclip.url, size:"400x400" if micropost.photoclip? %>
 <% else %>
   <span class="content"><%= micropost.content %></span>
 <% end %>
@@ -15,13 +15,15 @@
 
 
     <div class="micropost_likes">
-  <% if micropost.likes.where("user_id == ?",current_user.id).empty? %>
+<% if logged_in? %>
+ <% if micropost.likes.where("user_id == ?",current_user.id).empty? %>
   <% text = "Like" %>
   <% else %>
   <% text = "Unlike" %>
   <% end %>
-
-
+<%else%>
+  <%text = "Like" %>
+<% end %>
     <%= form_for Like.new do |f| %>
       <%= render "shared/error_messages", object: f.object %>
         <%= f.hidden_field(:micropost_id, value: micropost.id) %>
@@ -31,8 +33,17 @@
           <span> Likes: <%=micropost.likes.length %></span>
     </div>
 
+    <%= form_for Micropost.new do |f| %>
+    <%= render 'shared/error_messages', object: f.object %>
+      <div class="field">
+        <%= f.hidden_field :content, :value => micropost.content %>
+      <!--  <%= f.hidden_field :photoclip, :value => micropost.photoclip, class: "form-control" %> -->
+        <%= f.submit "Share", class: "btn btn-primary" %>
+      </div>
+    <% end %>
 
-    <%= form_for Comment.new, remote: true do |f| %>
+
+    <%= form_for Comment.new do |f| %>
       <%= render "shared/error_messages", object: f.object %>
       <%= f.text_field :content, class: "form-control" %>
       <%= f.hidden_field(:micropost_id, value: micropost.id) %>

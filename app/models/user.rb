@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
    before_save   :downcase_email
    before_create :create_activation_digest
    acts_as_messageable
-  has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }
+  has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" },:default_url => "default.png"
 
   validates_attachment :avatar,
     content_type: { content_type: ["image/jpeg", "image/png"] },

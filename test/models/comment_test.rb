@@ -22,4 +22,5 @@ test "micropost_id should be valid" do
   @comment.micropost_id = nil
   assert_not @comment.valid?
 end
+
 end

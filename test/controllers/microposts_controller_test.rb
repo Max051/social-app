@@ -4,6 +4,8 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
 
   def setup
     @micropost = microposts(:orange)
+    @user = users(:michael);
+
   end
 
   test "should redirect create when not logged in" do
@@ -19,4 +21,5 @@ class MicropostsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to login_url
   end
+  
 end
